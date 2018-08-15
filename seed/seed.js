@@ -25,12 +25,6 @@ function seedDb({ articleData, commentData, topicData, userData }) {
         userDocs,
         topicDocs
       ]);
-    })
-    .then(([commentDocs, articleDocs, userDocs, topicDocs]) => {
-      console.log(commentDocs[0]);
-      console.log(articleDocs[0]);
-      console.log(userDocs[0]);
-      console.log(topicDocs[0]);
     });
 }
 
