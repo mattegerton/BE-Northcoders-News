@@ -1,4 +1,4 @@
-const { Topic } = require("../models/");
+const { Topic, Article } = require("../models/");
 
 const getTopics = (req, res, next) => {
   Topic.find()
@@ -14,4 +14,19 @@ const getTopics = (req, res, next) => {
     });
 };
 
-module.exports = { getTopics };
+const getArticlesBySlug = (req, res, next) => {
+  const topicSlug = req.params.topic_slug;
+  Article.find({ belongs_to: topicSlug })
+    .then(articles => {
+      if (articles.length === 0) {
+        throw { msg: "Error 404: No Articles Found", status: 404 };
+      } else {
+        res.send({ articles });
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+module.exports = { getTopics, getArticlesBySlug };

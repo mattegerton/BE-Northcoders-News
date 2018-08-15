@@ -83,7 +83,7 @@ describe("Northcoders News Testing...", () => {
     });
   });
 
-  describe.only("/api/topics", () => {
+  describe("/api/topics", () => {
     it("GET responds with 200 with topic list.", () => {
       return request
         .get("/api/topics")
@@ -99,6 +99,28 @@ describe("Northcoders News Testing...", () => {
         .expect(404)
         .then(res => {
           expect(res.text).to.equal("Error 404: Page Not Found.");
+        });
+    });
+  });
+
+  describe.only("/api/topics/:topic_slug/articles", () => {
+    it("GET responds with 200 with topic list.", () => {
+      return request
+        .get("/api/topics/mitch/articles")
+        .expect(200)
+        .then(res => {
+          expect(res.body.articles.length).to.equal(2);
+          expect(res.body.articles[0].body).to.equal(
+            "I find this existence challenging"
+          );
+        });
+    });
+    it("GET responds with 404 with bad slug.", () => {
+      return request
+        .get("/api/topics/1/articles")
+        .expect(404)
+        .then(res => {
+          console.log(res.body.msg);
         });
     });
   });
