@@ -20,7 +20,7 @@ exports.formatCommentData = (commentData, userDocs, articleDocs) => {
     )._id;
 
     const belongs_to = articleDocs.find(
-      article => article.belongs_to === comment.title
+      article => article.title === comment.belongs_to
     )._id;
 
     return {

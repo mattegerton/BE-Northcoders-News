@@ -20,7 +20,9 @@ function seedDb({ articleData, commentData, topicData, userData }) {
     })
     .then(([articleDocs, userDocs, topicDocs]) => {
       return Promise.all([
-        Comment.insertMany(formatCommentData(commentData, userDocs, topicDocs)),
+        Comment.insertMany(
+          formatCommentData(commentData, userDocs, articleDocs)
+        ),
         articleDocs,
         userDocs,
         topicDocs

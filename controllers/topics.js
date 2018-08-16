@@ -14,12 +14,12 @@ const getTopics = (req, res, next) => {
     });
 };
 
-const getArticlesBySlug = (req, res, next) => {
+const findArticlesBySlug = (req, res, next) => {
   const topicSlug = req.params.topic_slug;
   Article.find({ belongs_to: topicSlug })
     .then(articles => {
       if (articles.length === 0) {
-        throw { msg: "Error 404: No Articles Found", status: 404 };
+        throw { msg: "Error 400: Invalid Request", status: 400 };
       } else {
         res.send({ articles });
       }
@@ -29,4 +29,19 @@ const getArticlesBySlug = (req, res, next) => {
     });
 };
 
-module.exports = { getTopics, getArticlesBySlug };
+const addNewArticle = (req, res, next) => {
+  if (!req.body) throw { msg: "There was no article to post.", status: 400 };
+  const article = {
+    ...req.body,
+    belongs_to: req.params.topic_slug
+  };
+  Article.create(article)
+    .then(article => {
+      res.status(201).send({ article });
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+module.exports = { getTopics, findArticlesBySlug, addNewArticle };
