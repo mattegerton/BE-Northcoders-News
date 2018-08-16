@@ -216,7 +216,7 @@ describe("Northcoders News Testing...", () => {
           expect(res.body.msg).to.equal("Error 404: No Topics Found");
         });
     });
-    it.only("PUT (query up) responds with 202 and changed data", () => {
+    it("PUT (query up) responds with 202 and changed data", () => {
       return request
         .put(`/api/articles/${articleDocs[0]._id}?vote=up`)
         .expect(202)
@@ -224,7 +224,7 @@ describe("Northcoders News Testing...", () => {
           expect(res.body.article.votes).to.equal(1);
         });
     });
-    it.only("PUT (query down) responds with 202 and changed data", () => {
+    it("PUT (query down) responds with 202 and changed data", () => {
       return request
         .put(`/api/articles/${articleDocs[0]._id}?vote=down`)
         .expect(202)
@@ -232,12 +232,12 @@ describe("Northcoders News Testing...", () => {
           expect(res.body.article.votes).to.equal(-1);
         });
     });
-    it.only("PUT (bad query) responds with 400 and error message", () => {
+    it("PUT (bad query) responds with 400 and error message", () => {
       return request
         .put(`/api/articles/${articleDocs[0]._id}?vote=sideways`)
         .expect(400)
         .then(res => {
-          expect(res.body.msg).to.equal("Error 400");
+          expect(res.body.msg).to.equal("Error 400: Bad Query");
         });
     });
   });

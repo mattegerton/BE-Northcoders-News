@@ -74,6 +74,16 @@ const changeArticleVote = (req, res, next) => {
     ).then(article => {
       res.status(202).send({ article });
     });
+  } else {
+    if (req.query !== "down" || req.query !== "up") {
+      Article.findByIdAndUpdate(req.params.article_id)
+        .then(article => {
+          throw { msg: "Error 400: Bad Query", status: 400 };
+        })
+        .catch(err => {
+          next(err);
+        });
+    }
   }
 };
 
