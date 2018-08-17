@@ -13,10 +13,14 @@ describe("Northcoders News Testing...", () => {
     userDocs,
     wrongID = mongoose.Types.ObjectId();
   beforeEach(() => {
-    return seedDB(data).then(docs => {
-      [commentDocs, articleDocs, topicDocs, userDocs] = docs;
-      console.log("seeding testData");
-    });
+    return seedDB(data)
+      .then(docs => {
+        [commentDocs, articleDocs, topicDocs, userDocs] = docs;
+        console.log("seeding testData");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   });
   after(() => {
     mongoose.disconnect();
@@ -185,6 +189,17 @@ describe("Northcoders News Testing...", () => {
         .expect(200)
         .then(res => {
           expect(res.body.articles.length).to.equal(4);
+          expect(res.body.articles[0]).to.have.keys(
+            "_id",
+            "votes",
+            "title",
+            "created_by",
+            "body",
+            "comment_count",
+            "created_at",
+            "belongs_to",
+            "__v"
+          );
         });
     });
     it("DELETE responds with 404 and all articles", () => {
@@ -202,10 +217,20 @@ describe("Northcoders News Testing...", () => {
   describe("/api/articles/:article_id", () => {
     it("GET responds with 200 and all articles", () => {
       return request
-        .get("/api/articles/5b740b686ae2b0703855c15c")
+        .get(`/api/articles/${articleDocs[0]._id}`)
         .expect(200)
         .then(res => {
-          expect(res.body.articles.length).to.equal(1);
+          expect(res.body.article.belongs_to).to.equal("mitch");
+          expect(res.body.article).to.have.keys(
+            "votes",
+            "_id",
+            "title",
+            "created_by",
+            "body",
+            "created_at",
+            "belongs_to",
+            "__v"
+          );
         });
     });
     it("GET responds with 400 and err message", () => {
@@ -260,6 +285,15 @@ describe("Northcoders News Testing...", () => {
         .get(`/api/articles/${articleDocs[0]._id}/comments`)
         .expect(200)
         .then(res => {
+          expect(res.body.comments[0]).to.have.keys(
+            "votes",
+            "_id",
+            "body",
+            "belongs_to",
+            "created_by",
+            "created_at",
+            "__v"
+          );
           expect(res.body.comments.length).to.equal(2);
         });
     });
@@ -386,6 +420,15 @@ describe("Northcoders News Testing...", () => {
         .get("/api/comments")
         .expect(200)
         .then(res => {
+          expect(res.body.comments[0]).to.have.keys(
+            "votes",
+            "_id",
+            "body",
+            "belongs_to",
+            "created_by",
+            "created_at",
+            "__v"
+          );
           expect(res.body.comments.length).to.equal(8);
         });
     });
@@ -393,13 +436,14 @@ describe("Northcoders News Testing...", () => {
 
   // Users (All users) //
 
-  describe.only("/api/users", () => {
+  describe("/api/users", () => {
     it("GET responds with 200 and a list of all users", () => {
       return request
         .get("/api/users")
         .expect(200)
         .then(res => {
           expect(res.body.users.length).to.equal(2);
+          expect(res.body.users[0].username).to.equal("butter_bridge");
         });
     });
   });

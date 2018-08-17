@@ -2,37 +2,3 @@
 node_modules/*
 .DS_Store
 config.js
-
-# NCNews backend checklist
-- [x] README clear and instructions accurate
-- [x] Needs instructions to seed database
-- [x] Package.json includes dependencies (mocha in particular) organised into dev and not dev
-- [x] Node modules and config file ignored
-- [x] Seed function takes raw data
-- [x] Routes broken down with `Router.route`
-- [x] Uses config file and process.env
-- [ ] No errors in the console when running in dev or running tests
-- [ ] Deployed on heroku and Mlab ()
-
-## Implements all endpoints
-- [x] `GET /api/topics`
-- [] `GET /api/topics/:topic_slug/articles` (should calculate comment count in controller)
-- [x ] `POST /api/topics/:topic_slug/articles` 
-- [ ] `GET /api/articles`  (should calculate comment count in controller)
-- [x] `GET /api/articles/:article_id`
-- [x] `GET /api/articles/:article_id/comments`
-- [x] `POST /api/articles/:article_id/comments`
-- [x] `PUT /api/articles/:article_id`
-- [x] `PUT /api/comments/:comment_id`
-- [x] `DELETE /api/comments/:comment_id`
-- [x] `GET /api/users/:username`
-- [x] Error handling on server (e.g. cast errors / validation errors, 400 and 500)
-- [x] Error handling on controllers
-- [x] 404 on invalid routes.
-
-## Testing 
-- [x] Tests use test environment and DB
-- [x] Tests run successfully and are explicit: not just testing the length of things, but actual data values as well
-- [x] Describe_it blocks organised_logically
-- [x] Tests all endpoints
-- [x] Tests 400 and 404 errors

@@ -19,6 +19,9 @@ const findArticlesBySlug = (req, res, next) => {
   Article.find({ belongs_to: topicSlug })
     .lean()
     .then(articles => {
+      if (articles.length === 0) {
+        throw { msg: "Error 400: Invalid Request", status: 400 };
+      }
       const comments = articles.map(article => {
         return Comment.countDocuments({ belongs_to: article._id });
       });
