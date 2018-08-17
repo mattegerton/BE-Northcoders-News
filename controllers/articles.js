@@ -2,12 +2,25 @@ const { Article, Comment } = require("../models/");
 
 const allArticles = (req, res, next) => {
   Article.find()
+    .lean()
     .then(articles => {
       if (articles.length === 0) {
         throw { msg: "Error 404: No Topics Found", status: 404 };
       } else {
-        res.send({ articles });
+        const comments = articles.map(article => {
+          return Comment.countDocuments({ belongs_to: article._id });
+        });
+        return Promise.all([articles, ...comments]);
       }
+    })
+    .then(([articles, ...comments]) => {
+      articles = articles.map((article, i) => {
+        return {
+          ...article,
+          comment_count: comments[i]
+        };
+      });
+      res.status(200).send({ articles });
     })
     .catch(err => {
       next(err);

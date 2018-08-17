@@ -1,4 +1,4 @@
-const { Topic, Article } = require("../models/");
+const { Topic, Article, Comment } = require("../models/");
 
 const getTopics = (req, res, next) => {
   Topic.find()
@@ -17,12 +17,22 @@ const getTopics = (req, res, next) => {
 const findArticlesBySlug = (req, res, next) => {
   const topicSlug = req.params.topic_slug;
   Article.find({ belongs_to: topicSlug })
+    .lean()
     .then(articles => {
-      if (articles.length === 0) {
-        throw { msg: "Error 400: Invalid Request", status: 400 };
-      } else {
-        res.send({ articles });
-      }
+      const comments = articles.map(article => {
+        return Comment.countDocuments({ belongs_to: article._id });
+      });
+
+      return Promise.all([articles, ...comments]);
+    })
+    .then(([articles, ...comments]) => {
+      articles = articles.map((article, i) => {
+        return {
+          ...article,
+          comment_count: comments[i]
+        };
+      });
+      res.status(200).send({ articles });
     })
     .catch(err => {
       next(err);
