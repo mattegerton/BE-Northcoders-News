@@ -21,6 +21,8 @@ describe("Northcoders News Testing...", () => {
   after(() => {
     mongoose.disconnect();
   });
+
+  // API (generic tests //
   describe("/api", () => {
     it("GET responds with 404 for an invalid route.", () => {
       return request
@@ -88,6 +90,8 @@ describe("Northcoders News Testing...", () => {
     });
   });
 
+  // Topics (All topics) //
+
   describe("/api/topics", () => {
     it("GET responds with 200 with topic list.", () => {
       return request
@@ -107,6 +111,8 @@ describe("Northcoders News Testing...", () => {
         });
     });
   });
+
+  // Topics (Articles by slug) //
 
   describe("/api/topics/:topic_slug/articles", () => {
     it("GET responds with 200 with topic list.", () => {
@@ -155,7 +161,7 @@ describe("Northcoders News Testing...", () => {
     it("POST responds with 400 and error message", () => {
       const newArticle = {
         title: "new article",
-        //body: is required for Schema.
+        //body: should be required for Schema.
         created_by: "5b740b676ae2b0703855c140"
       };
       return request
@@ -169,6 +175,8 @@ describe("Northcoders News Testing...", () => {
         });
     });
   });
+
+  // Articles (All) //
 
   describe("/api/articles", () => {
     it("GET responds with 200 and all articles", () => {
@@ -188,6 +196,8 @@ describe("Northcoders News Testing...", () => {
         });
     });
   });
+
+  // Articles (By Id, Vote) //
 
   describe("/api/articles/:article_id", () => {
     it("GET responds with 200 and all articles", () => {
@@ -241,6 +251,8 @@ describe("Northcoders News Testing...", () => {
         });
     });
   });
+
+  // Articles (All comments by article ID) //
 
   describe("/api/articles/:article_id/comments", () => {
     it("GET responds with 200 and all comments for article ID", () => {
@@ -304,6 +316,90 @@ describe("Northcoders News Testing...", () => {
           expect(res.body.msg).to.equal(
             `comments validation failed: belongs_to: Cast to ObjectID failed for value "123" at path "belongs_to"`
           );
+        });
+    });
+  });
+
+  // Comments (Vote, Delete, All) //
+
+  describe("/api/comments", () => {
+    it("PUT (query up) responds with 202 and changed data", () => {
+      return request
+        .put(`/api/comments/${commentDocs[0]._id}?vote=up`)
+        .expect(202)
+        .then(res => {
+          expect(res.body.comment.votes).to.equal(8);
+        });
+    });
+    it("PUT (query down) responds with 202 and changed data", () => {
+      return request
+        .put(`/api/comments/${commentDocs[0]._id}?vote=down`)
+        .expect(202)
+        .then(res => {
+          expect(res.body.comment.votes).to.equal(6);
+        });
+    });
+    it("PUT (query down) responds with 202 and changed data", () => {
+      return request
+        .put(`/api/comments/${commentDocs[0]._id}?vote=sideways`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.msg).to.equal("Error 400: Bad Query");
+        });
+    });
+    it("DELETE responds with 200 and changed data", () => {
+      return request
+        .delete(`/api/comments/${commentDocs[0]._id}`)
+        .expect(202)
+        .then(res => {
+          return request.get("/api/comments/").then(res => {
+            console.log(res.body.comments[0]);
+            expect(res.body.comments.length).to.equal(7);
+            expect(res.body.comments[0].body).to.equal(
+              " I carry a log — yes. Is it funny to you? It is not to me."
+            );
+          });
+        });
+    });
+    it("DELETE responds with 400 and error message", () => {
+      return request
+        .delete(`/api/comments/notid`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.msg).to.equal(
+            'Cast to ObjectId failed for value "notid" at path "_id" for model "comments"'
+          );
+        });
+    });
+    it("DELETE responds with 404 and error message", () => {
+      return request
+        .delete(`/api/comments/${wrongID}`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.msg).to.equal(
+            'Cast to ObjectId failed for value "notid" at path "_id" for model "comments"'
+          );
+        });
+    });
+    it("GET responds with 200 and list of all comments", () => {
+      return request
+        .get("/api/comments")
+        .expect(200)
+        .then(res => {
+          expect(res.body.comments.length).to.equal(8);
+        });
+    });
+  });
+
+  // Users (All users) //
+
+  describe.only("/api/users", () => {
+    it("GET responds with 200 and a list of all users", () => {
+      return request
+        .get("/api/users")
+        .expect(200)
+        .then(res => {
+          expect(res.body.users.length).to.equal(2);
         });
     });
   });

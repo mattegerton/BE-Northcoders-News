@@ -30,4 +30,28 @@ const changeCommentVote = (req, res, next) => {
   }
 };
 
-module.exports = { changeCommentVote };
+const deleteComment = (req, res, next) => {
+  Comment.findByIdAndRemove(req.params.comment_id)
+    .then(comment => {
+      res.status(202).send({ comment });
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+const allComments = (req, res, next) => {
+  Comment.find()
+    .then(comments => {
+      res.status(200).send({ comments });
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+module.exports = {
+  changeCommentVote,
+  deleteComment,
+  allComments
+};
