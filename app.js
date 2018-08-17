@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const apiRouter = require("./routes/api");
-const { DB_URL } = require("./config");
+const { DB_URL } = process.env.DB_URL || require("./config");
 
 app.use(bodyParser.json());
 app.use("/api", apiRouter);
