@@ -12,7 +12,8 @@ describe("Northcoders News Testing...", () => {
     topicDocs,
     userDocs,
     wrongID = mongoose.Types.ObjectId();
-  beforeEach(() => {
+  beforeEach(function() {
+    this.timeout(3000);
     return seedDB(data)
       .then(docs => {
         [commentDocs, articleDocs, topicDocs, userDocs] = docs;
