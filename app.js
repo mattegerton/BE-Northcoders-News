@@ -4,7 +4,9 @@ const app = express();
 const bodyParser = require("body-parser");
 const apiRouter = require("./routes/api");
 const { DB_URL } = process.env || require("./config");
+const cors = require("cors");
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/api", apiRouter);
 

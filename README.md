@@ -1,4 +1,4 @@
-## Northcoders News API
+npm## Northcoders News API
 
 ### Background
 
@@ -14,20 +14,20 @@ Look closely at the response you get for each route on http://northcoders-news-a
 
 The below are all model methods that you call on your models.
 
-* [find](http://mongoosejs.com/docs/api.html#model_Model.find)
-* [findOne](http://mongoosejs.com/docs/api.html#model_Model.findOne)
-* [findOneAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate)
-* [findOneAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findOneAndRemove)
-* [findById](http://mongoosejs.com/docs/api.html#model_Model.findById)
-* [findByIdAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate)
-* [findByIdAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove)
-* [update](http://mongoosejs.com/docs/api.html#model_Model.update)
+- [find](http://mongoosejs.com/docs/api.html#model_Model.find)
+- [findOne](http://mongoosejs.com/docs/api.html#model_Model.findOne)
+- [findOneAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate)
+- [findOneAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findOneAndRemove)
+- [findById](http://mongoosejs.com/docs/api.html#model_Model.findById)
+- [findByIdAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate)
+- [findByIdAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove)
+- [update](http://mongoosejs.com/docs/api.html#model_Model.update)
 
 There are also some methods that can be called on the documents that get returned. These are:
 
-* [remove](http://mongoosejs.com/docs/api.html#model_Model-remove)
-* [save](http://mongoosejs.com/docs/api.html#model_Model-save)
-* [count](http://mongoosejs.com/docs/api.html#model_Model.count)
+- [remove](http://mongoosejs.com/docs/api.html#model_Model-remove)
+- [save](http://mongoosejs.com/docs/api.html#model_Model-save)
+- [count](http://mongoosejs.com/docs/api.html#model_Model.count)
 
 ### Step 1 - Seeding
 
@@ -49,13 +49,13 @@ Data has been provided for both testing and development environments so you will
 
 ### Routes
 
-
 Your server should have the following end-points:
+
 ```http
 GET /api
 ```
-Serves an HTML page with documentation for all the available endpoints
 
+Serves an HTML page with documentation for all the available endpoints
 
 ```http
 GET /api/topics
@@ -128,7 +128,6 @@ GET /api/users/:username
 e.g: `/api/users/mitch123`
 
 Returns a JSON object with the profile data for the specified user.
-
 
 NOTE: When it comes to building your front end you'll find it extremely useful if your POST comment endpoint returns the new comment with the created_by property populated with the corresponding user object.
 
