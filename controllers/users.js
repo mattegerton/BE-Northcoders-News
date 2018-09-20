@@ -14,4 +14,18 @@ const allUsers = (req, res, next) => {
     });
 };
 
-module.exports = allUsers;
+const userById = (req, res, next) => {
+  User.findById(req.params.user_id)
+    .then(user => {
+      if (!user) {
+        throw { msg: "Error 404: No User Found", status: 404 };
+      } else {
+        res.send({ user });
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+module.exports = { allUsers, userById };
