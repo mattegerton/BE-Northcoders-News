@@ -5,14 +5,49 @@ You can also find the deployed version of the site [here](https://nc-news-matteg
 The project as a whole is designed to be a 'Reddit' style news website. Users can view and post articles related to topics, comment on articles and vote on both articles and comments. 
 
 ## Getting Started
+
 To check the API out yourself just fork this repo and clone it like so:
 ```
 git clone [copy the link from your fork]
 cd BE-Northcoders-News
 ```
+### Config
 
-### Routes
+Before you can run the test or development environment you'll need to set up a config file in the root directory.
+```
+touch config.js
+```
+The config file should look like this:
+```
+const config = {
+  dev: {
+    DB_URL: "mongodb://localhost:27017/[database_name]"
+  },
+  test: {
+    DB_URL: "mongodb://localhost:27017/[test_database_name]"
+  },
+  production: {
+    DB_URL:
+      "mongodb://[username]:[password]@ds225442.mlab.com:25442/[database_name]"
+  }
+};
 
+const NODE_ENV = process.env.NODE_ENV || "dev";
+
+module.exports = config[NODE_ENV];
+```
+This config file allows us to import the test, dev and production database depending on what we are doing. For example, before running the test file set the NODE_ENV to "test" like below: 
+```
+process.env.NODE_ENV = "test";
+```
+
+## Test environment
+The back-end was built with full TDD. You can see all of the tests in the spec folder. You can run them with:
+```
+npm run test
+```
+
+## Routes
 
 ```http
 GET /api
