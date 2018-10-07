@@ -5,9 +5,9 @@ You can also find the deployed version of the site [here](https://nc-news-matteg
 The project as a whole is designed to be a 'Reddit' style news website. Users can view and post articles related to topics, comment on articles and vote on both articles and comments. 
 
 ## Getting Started
-To check the API out yourself just fork this repo and enter the following command in your terminal.
+To check the API out yourself just fork this repo and clone it like so:
 ```
-git clone https://github.com/mattegerton/BE-Northcoders-News.git
+git clone [copy the link from your fork]
 cd BE-Northcoders-News
 ```
 
